@@ -1,0 +1,75 @@
+name: CI/CD Pipeline for Job Tracker
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: client/job_tracker 
+      - name: Run Linter (Optional)
+        run: npm run lint
+        working-directory: client/job_tracker
+
+      - name: Run Tests (If Available)
+        run: npm test
+        working-directory: client/job_tracker
+
+  build-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: server  
+
+      - name: Run Tests (If Available)
+        run: npm test
+        working-directory: server
+
+  deploy-render:
+    needs: [build-backend]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Render Deployment
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          curl -X POST "https://api.render.com/deploy/srv-XXXXXXXX" \
+          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Content-Type: application/json" \
+          --data '{"clearCache": true}'
+
+  deploy-vercel:
+    needs: [build-frontend]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Vercel
+        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
