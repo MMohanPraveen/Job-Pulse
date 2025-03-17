@@ -1,0 +1,26 @@
+# Ignore dependencies (Already included, but keeping it)
+node_modules
+
+# Ignore environment variables (Already included)
+.env
+*.env
+
+# Ignore build artifacts
+dist
+build
+.cache
+
+# Ignore log files
+npm-debug.log
+yarn-error.log
+*.log
+
+# Ignore version control & system files
+.git
+.gitignore
+.DS_Store
+Thumbs.db
+
+# Ignore Docker-related files (optional)
+.dockerignore
+Dockerfile
