@@ -20,7 +20,7 @@ const JobPulseExplorer = () => {
         <Grid item xs={12} md={6}>
           <Box
             component="img"
-            src="/job-pulse-banner.webp"
+            src="/job-explorer.png"
             alt="Banner"
             sx={{
               width: "100%",
