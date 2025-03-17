@@ -4,6 +4,8 @@ import JobCard from "../components/JobCard"
 import { Grid, Container, Typography } from "@mui/material";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+const API_URL = process.env.REACT_APP_API_URL;
+
 
 
 const JobExplorer = () => {
@@ -17,7 +19,7 @@ const JobExplorer = () => {
 
   const fetchJobs = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/explore-jobs");
+      const response = await axios.get(`${API_URL}/explore-jobs`);
       setJobs(response.data.jobs);
       setLoading(false);
     } catch (err) {
