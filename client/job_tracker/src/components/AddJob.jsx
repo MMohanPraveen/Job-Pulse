@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Box, TextField, MenuItem, Button } from "@mui/material";
+const API_URL = process.env.REACT_APP_API_URL;
 
 
 const AddJob = ({ fetchJobs, closeModal }) => {
@@ -17,7 +18,7 @@ const AddJob = ({ fetchJobs, closeModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:5000/jobs", formData);
+    await axios.post(`${API_URL}/jobs`, formData);
     fetchJobs(); // Refresh job list
     closeModal(); // Close modal after adding job
   };

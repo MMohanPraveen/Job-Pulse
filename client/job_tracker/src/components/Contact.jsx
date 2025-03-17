@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Box, TextField, Button, Typography, Snackbar, Alert } from "@mui/material";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -21,7 +22,7 @@ const Contact = () => {
 
     try {
       // Simulating API request
-      const response = await axios.post("http://backend:5000/contacts", formData, {
+      const response = await axios.post(`${API_URL}/contacts`, formData, {
         headers: { "Content-Type": "application/json" },
       });
       if (response.status === 201) {

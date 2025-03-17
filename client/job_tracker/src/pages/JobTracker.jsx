@@ -6,6 +6,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddJob from "../components/AddJob";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+const API_URL = process.env.REACT_APP_API_URL;
+
 
 const JobTracker = () => {
   const [editingJobId, setEditingJobId] = useState(null);
@@ -23,7 +25,7 @@ const JobTracker = () => {
   // Fetch jobs from the backend
   const fetchJobs = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/jobs");
+      const response = await axios.get(`${API_URL}/jobs`);
       setJobs(response.data);
     } catch (error) {
       console.error("Error fetching jobs:", error);
@@ -37,7 +39,7 @@ const JobTracker = () => {
   // Handle delete job
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/jobs/${id}`);
+      await axios.delete(`${API_URL}/jobs/${id}`);
       fetchJobs(); // Refresh job list
     } catch (error) {
       console.error("Error deleting job:", error);
@@ -63,7 +65,7 @@ const JobTracker = () => {
   // Submit updated job data
   const handleUpdate = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/jobs/${id}`, editedData);
+      await axios.put(`${API_URL}/jobs/${id}`, editedData);
       setEditingJobId(null);
       fetchJobs(); // Refresh job list
     } catch (error) {
